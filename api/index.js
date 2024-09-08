@@ -63,10 +63,10 @@ async function convertJsonToXlsx(students) {
 app.post('/download-xlsx', async (req, res) => {
   try {
     // Fetch data from an external API
-    const {students}=req.body
+    const {allStudents}=req.body
 
     // Convert the fetched data to XLSX
-    const xlsxData = await convertJsonToXlsx(students);
+    const xlsxData = await convertJsonToXlsx(allStudents);
 
     // Set the response headers for file download
     res.setHeader('Content-Disposition', 'attachment; filename=students.xlsx');
