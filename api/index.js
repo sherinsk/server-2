@@ -4,6 +4,9 @@ const ExcelJS = require('exceljs');
 const app = express();
 const PORT = 3000;
 
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
 // Function to convert JSON to XLSX using ExcelJS
 async function convertJsonToXlsx(students) {
   // Create a new workbook
@@ -57,11 +60,10 @@ async function convertJsonToXlsx(students) {
 }
 
 // API endpoint to download the XLSX file
-app.get('/download-xlsx', async (req, res) => {
+app.post('/download-xlsx', async (req, res) => {
   try {
     // Fetch data from an external API
-    const response = await axios.get('https://server-1-lime.vercel.app/students'); // Replace with the actual API URL
-    const students = response.data;
+    const {students}=req.body
 
     // Convert the fetched data to XLSX
     const xlsxData = await convertJsonToXlsx(students);
